@@ -12,7 +12,7 @@ function resetingBoard()
 	done
 	displayBoard
 
-     
+     assignedSymbol
 
 }
 
@@ -22,25 +22,32 @@ function assignedSymbol()
 	read -p "take lettrer (x or 0) for playing:" playerLetter 
 	if [ $playerLetter == x ] || [ $playerLetter == X ]
 	then 
-	computerLetter=0	
+	computerLetter='0'	
 	else
-	computerLetter=X
+	computerLetter='X'
 	fi
+      echo "player get:"$playerLetter
 	}
  	
 	 
 
 function tossWinner() 
 {	
-	assignedSymbol
+
 	tossCheck=$((RANDOM%2))
 	if [ $tossCheck -eq 1 ]
 	then 
-	tossCheck="player"
+	tossCheck=$playerLetter
 	else
-	tossCheck="computer"
+	tossCheck=$computerLetter
 	fi
-
+        
+        if [ $tossCheck == $playerLetter ]
+        then
+	read -p "enter the cell position" cellPosition
+	boardOfGame[$cellPosition]=$playerLetter
+	displayBoard 
+	fi
 }
 
 
@@ -56,6 +63,9 @@ function displayBoard()
 	echo "  | "${boardOfGame[7]}" | "${boardOfGame[8]}" | "${boardOfGame[9]}" |"       
         echo "  |---|---|---|"
 }
-tossWinner
+
+
+
 resetingBoard
+tossWinner
 
