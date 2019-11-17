@@ -13,4 +13,17 @@ echo :${boardOfGame[@]}
 
 
 }
-resetingBoard
+
+function assignedSymbol() 
+{
+	resetingBoard
+	read -p "take lettrer (x or 0) for playing:" playerLetter 
+	if [ $playerLetter == x ] || [ $playerLetter == X ]
+	then 
+	computerLetter=0	
+	else
+	computerLetter=X
+	fi
+	}
+ 	
+	assignedSymbol   
