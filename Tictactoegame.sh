@@ -27,3 +27,18 @@ function assignedSymbol()
 	}
  	
 	assignedSymbol   
+
+function tossWinner() 
+{	
+	assignedSymbol
+	tossCheck=$((RANDOM%2))
+	if [ $tossCheck -eq 1 ]
+	then 
+	tossCheck="player"
+	else
+	tossCheck="computer"
+	fi
+
+}
+
+tossWinner
