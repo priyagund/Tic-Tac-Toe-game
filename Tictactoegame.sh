@@ -1,13 +1,13 @@
-#!/bin/bash -x
+#!/bin/bash 
 echo "welcome"
 
 declare -a  boardOfGame
 function resetingBoard()
 {
 	
- 	for((position=1 ; position<=9 ; position++ ))
+ 	for (( position=1 ; position<=9 ; position++ ))
 	do
-	boardOfGame["$position"]=$position;
+	boardOfGame[$position]=$position;
         
 	done
 	displayBoard
@@ -54,18 +54,90 @@ function tossWinner()
 
 function displayBoard()
 {	
-	
+	i=0
+	for (( counter=1 ; counter<=3 ; counter++ ))
+	do
 	echo "  |---|---|---| "
-	echo "  | "${boardOfGame[1]}" | "${boardOfGame[2]}" | "${boardOfGame[3]}" |"
+	echo "  | "${boardOfGame[$((counter+i))]}" | "${boardOfGame[$((counter+i+1))]}" | "${boardOfGame[$((counter+i+2))]}" |"
 	echo "  |---|---|---|"
-	echo "  | "${boardOfGame[4]}" | "${boardOfGame[5]}" | "${boardOfGame[6]}" |"
-	echo "  |---|---|---|"		
-	echo "  | "${boardOfGame[7]}" | "${boardOfGame[8]}" | "${boardOfGame[9]}" |"       
-        echo "  |---|---|---|"
+        i=$(($i+2))
+	done
+	
 }
 
 
 
 resetingBoard
 tossWinner
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
