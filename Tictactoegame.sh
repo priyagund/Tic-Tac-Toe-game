@@ -1,6 +1,7 @@
+
 #!/bin/bash -x
 echo "welcome"
-flag=0
+
 declare -a  boardOfGame
 function resetingBoard()
 {
@@ -64,86 +65,116 @@ function winAtRowsPosition()
 	
 	i=0
 	letter=$1
-	result=$1
+	resultRow=nextmove
 	for((count=1; count<=3 ; count++ ))
 	do
 	i=$(($i+1))
 	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +1]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i + 2]} ]] && [[ ${boardOfGame[$i +2]} -eq $letter ]]
 	then
-	echo "player Win"
+	resultRow="win"
         break
-	flag=1
+	
 	fi
 	i=$(($i+2))
 	done
-	
+	echo $resultRow
 }
 
 function winAtColumnPosition() 
 {
-	i=0
+	
 	letter=$1
-	result=$2
-	for((count=1; count<=3 ; count++ ))
+	resultColumn=nextmove
+	for (( i=1; i<=3 ; i++ ))
 	do
-	i=$(($i+1))
-	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +3]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i + 6]} ]] && [[ ${boardOfGame[$i +6]} -eq $letter ]]
+	
+	if [ ${boardOfGame[$i]} == ${boardOfGame[$((i +3))]} ] && [ ${boardOfGame[$i]} == ${boardOfGame[$((i+6))]} ] && [ ${boardOfGame[$((i +6))]} == $letter ]
 	then
-	echo "player win"
+	resultColumn="win"
 	break
 	fi
-	i=$(($i+1))
+	
+	
 	done
+	echo $resultColumn
 }
 
 function winAtDiagonal() 
 {
-	i=0
+	
 	letter=$1
-	for((count=1 ; count<=2 ; count++))
-	do
-	i=$(($i+1))
-	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +4]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i+8]} ]] && [[ ${boardOfGame[$i +8]} -eq $letter ]]
+	resultDiagonal=nextmove
+	i=1
+	if [ ${boardOfGame[$i]} == ${boardOfGame[$((i +4))]} ] && [ ${boardOfGame[$i]} == ${boardOfGame[$((i +8))]} ] && [ ${boardOfGame[$((i +8))]} == $letter ]
 	then
-	echo "player win"
-	break
-	elif [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +4]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i+8]} ]] && [[ ${boardOfGame[$i +8]} -eq $letter ]]
+	resultDiagonal="win"
+	
+	elif [ ${boardOfGame[$((i +2))]} == ${boardOfGame[$((i +4))]} ] && [ ${boardOfGame[$((i +2))]} == ${boardOfGame[$((i +6))]} ] && [ ${boardOfGame[$((i +6))]} == $letter ]
 	then
-	echo "player win"
+	resultDiagonal="win"
+	
+	
+	fi
+	
 }
 
 
 function playGame() 
-{	
-	playNext=1
-	while [ $playNext == 1 ]
+{	turn=$2
+	playNext=nextmove
+	
+	while [[ $playNext == nextmove ]]
 	do
 		read -p "enter the cell:" position
 		echo $position
  	if [[ ${boardOfGame[$position]} == $2 ]] || [[ ${boardOfGame[$position]} == $3 ]]
 	then
-	echo "player Win"
-		playNext=0
+		playNext=nextmove
 	else
 		boardOfGame[$position]=$2
 		displayBoard
+		playNext="$( checkWinTieOrTurnChange $1 $2 $3 )"
 		
-		if [[ $flag == 1 ]]
-		then 
-		echo "player win"
-		fi
+	fi
+	if [ $playNext == win ]
+	then
+		echo "win Player"
+		break
 	fi
 	done
  
 }
 
  function checkWinTieOrTurnChange() 
-{
-	winAtRowsPosition $1
-	winAtColumnPosition $1
-	winAtDiagonal $1
-
+{	resultTurn=$1
+	rowResult="$(winAtRowsPosition $2)"
+	columnResult="$(winAtColumnPosition $2)"
+	diagonalResult="$(winAtDiagonal $2)"
+	if [[ $rowResult == "win" ]] || [[ $columnResult == "win" ]] || [[ $diagonalsResult == "win" ]]
+	then
+		flag="win"
+	else
+		resultOfTie="$(tieResult)"		
+		if [ $resultOfTie == nextmove ]
+		then
+			flag=nextmove
+		fi
+	fi
+	echo $flag
 }
+
+ function tieResult() 
+{
+	i=1
+	resultOfTie=tie
+	if [ ${boardOfGame[$i]} == 1 ] || [ ${boardOfGame[$i+1]} == 2 ] ||  [ ${boardOfGame[$i+2]} == 3 ] || [ ${boardOfGame[$i+3]} == 4 ] || [ ${boardOfGame[$i+4]} == 5 ] || [ ${boardOfGame[$i+5]} == 6 ] || [ ${boardOfGame[$i+6]} == 7 ] || [ ${boardOfGame[$i+7]} == 8 ] || [ ${boardOfGame[$i+8]} == 9 ]
+	then
+	resultOfTie=nextmove
+	fi
+	 echo $resultOfTie
+}
+
+
 
 tossWinner
 
