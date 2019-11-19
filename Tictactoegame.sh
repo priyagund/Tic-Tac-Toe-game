@@ -1,4 +1,3 @@
-
 #!/bin/bash -x
 echo "welcome"
 
@@ -77,26 +76,25 @@ function winAtRowsPosition()
 	fi
 	i=$(($i+2))
 	done
-	echo $resultRow
+	
 }
 
 function winAtColumnPosition() 
 {
-	
+	i=0
 	letter=$1
 	resultColumn=nextmove
-	for (( i=1; i<=3 ; i++ ))
+	for((count=1; count<=3 ; count++ ))
 	do
-	
-	if [ ${boardOfGame[$i]} == ${boardOfGame[$((i +3))]} ] && [ ${boardOfGame[$i]} == ${boardOfGame[$((i+6))]} ] && [ ${boardOfGame[$((i +6))]} == $letter ]
+	i=$(($i+1))
+	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +3]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i + 6]} ]] && [[ ${boardOfGame[$i +6]} -eq $letter ]]
 	then
 	resultColumn="win"
 	break
 	fi
-	
-	
-	done
+	i=$(($i+1))
 	echo $resultColumn
+	done
 }
 
 function winAtDiagonal() 
@@ -105,17 +103,15 @@ function winAtDiagonal()
 	letter=$1
 	resultDiagonal=nextmove
 	i=1
-	if [ ${boardOfGame[$i]} == ${boardOfGame[$((i +4))]} ] && [ ${boardOfGame[$i]} == ${boardOfGame[$((i +8))]} ] && [ ${boardOfGame[$((i +8))]} == $letter ]
+	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +4]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i+8]} ]] && [[ ${boardOfGame[$i +8]} -eq $letter ]]
 	then
 	resultDiagonal="win"
-	
-	elif [ ${boardOfGame[$((i +2))]} == ${boardOfGame[$((i +4))]} ] && [ ${boardOfGame[$((i +2))]} == ${boardOfGame[$((i +6))]} ] && [ ${boardOfGame[$((i +6))]} == $letter ]
+	break
+	elif [[ ${boardOfGame[$i+2]} -eq ${boardOfGame[$i +4]} ]] && [[ ${boardOfGame[$i+2]} -eq ${boardOfGame[$i+6]} ]] && [[ ${boardOfGame[$i +6]} -eq $letter ]]
 	then
 	resultDiagonal="win"
-	
-	
 	fi
-	
+	echo $resultDiagonal
 }
 
 
@@ -123,33 +119,29 @@ function playGame()
 {	turn=$2
 	playNext=nextmove
 	
-	while [[ $playNext == nextmove ]]
+	while [ $playNext == nextmove ]
 	do
 		read -p "enter the cell:" position
 		echo $position
  	if [[ ${boardOfGame[$position]} == $2 ]] || [[ ${boardOfGame[$position]} == $3 ]]
 	then
+	echo "player Win"
 		playNext=nextmove
 	else
 		boardOfGame[$position]=$2
 		displayBoard
-		playNext="$( checkWinTieOrTurnChange $1 $2 $3 )"
 		
-	fi
-	if [ $playNext == win ]
-	then
-		echo "win Player"
-		break
+		playNext="$( checkWinTieOrTurnChange $turn )"
 	fi
 	done
  
 }
 
  function checkWinTieOrTurnChange() 
-{	resultTurn=$1
+{	resulTurn=$1
 	rowResult="$(winAtRowsPosition $2)"
 	columnResult="$(winAtColumnPosition $2)"
-	diagonalResult="$(winAtDiagonal $2)"
+	diagonalsResult="$(winAtDiagonal $2)"
 	if [[ $rowResult == "win" ]] || [[ $columnResult == "win" ]] || [[ $diagonalsResult == "win" ]]
 	then
 		flag="win"
