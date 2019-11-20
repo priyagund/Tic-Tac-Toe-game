@@ -12,7 +12,7 @@ function resetingBoard()
         
 	done
     	
-	echo $playerSym
+	echo $playerSymbol
  	
 }
 
@@ -303,7 +303,7 @@ function winnerAtDiagonal() {
 	then
 	resultOfTie=nextmove
 	fi
-	 echo $resultOfTie
+	echo $resultOfTie
 }
 
 
