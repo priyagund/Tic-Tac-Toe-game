@@ -1,3 +1,4 @@
+01
 #!/bin/bash -x
 echo "welcome"
 
@@ -74,33 +75,13 @@ function winAtRowsPosition()
 			rowCount=$(( $rowCount+2 ))
 		fi
 	done
-<<<<<<< HEAD
-	
-=======
 	echo $winnerFound
->>>>>>> uc8_computer_block_player
 }
 
 
 
 function winAtColumnPosition() 
 {
-<<<<<<< HEAD
-	i=0
-	letter=$1
-	resultColumn=nextmove
-	for((count=1; count<=3 ; count++ ))
-	do
-	i=$(($i+1))
-	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +3]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i + 6]} ]] && [[ ${boardOfGame[$i +6]} -eq $letter ]]
-	then
-	resultColumn="win"
-	break
-	fi
-	i=$(($i+1))
-	echo $resultColumn
-	done
-=======
 	local columCount=0;
 	local winnerFound=false;
 	for (( count=1; count<=3; count++ ))
@@ -114,34 +95,11 @@ function winAtColumnPosition()
 	done
 	echo $winnerFound
 
->>>>>>> uc8_computer_block_player
 }
 
 function winAtDiagonalPosition() 
 {
 	
-<<<<<<< HEAD
-	letter=$1
-	resultDiagonal=nextmove
-	i=1
-	if [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i +4]} ]] && [[ ${boardOfGame[$i]} -eq ${boardOfGame[$i+8]} ]] && [[ ${boardOfGame[$i +8]} -eq $letter ]]
-	then
-	resultDiagonal="win"
-	break
-	elif [[ ${boardOfGame[$i+2]} -eq ${boardOfGame[$i +4]} ]] && [[ ${boardOfGame[$i+2]} -eq ${boardOfGame[$i+6]} ]] && [[ ${boardOfGame[$i +6]} -eq $letter ]]
-	then
-	resultDiagonal="win"
-	fi
-	echo $resultDiagonal
-}
-
-
-function playGame() 
-{	turn=$2
-	playNext=nextmove
-	
-	while [ $playNext == nextmove ]
-=======
 	local winnerFound=false
 	for (( count=1; count<=3; count++ ))
 	do
@@ -167,7 +125,6 @@ function playGame() {
 	playerPlay=play
 	winnerFound1=false
 	while [ $playNext == 0 ]
->>>>>>> uc8_computer_block_player
 	do
 		playerPlay="play"
 		while [ $playerPlay == play ]
@@ -231,15 +188,6 @@ function possiblityForWinning(){
 		replacePosition=0;
 	elif [[ $diagonalPosition -gt 0 ]]
 	then
-<<<<<<< HEAD
-	echo "player Win"
-		playNext=nextmove
-	else
-		boardOfGame[$position]=$2
-		displayBoard
-		
-		playNext="$( checkWinTieOrTurnChange $turn )"
-=======
 
 		randomPoition=$diagonalPosition
 		replacePosition=0;
@@ -265,7 +213,6 @@ function possiblityForWinning(){
 		#else
 			#flag=false
 		#fi
->>>>>>> uc8_computer_block_player
 	fi
 	echo $flag
 }
@@ -295,19 +242,6 @@ function winnerAtRow(){
 	echo $replacePosition
 }
 
-<<<<<<< HEAD
- function checkWinTieOrTurnChange() 
-{	resulTurn=$1
-	rowResult="$(winAtRowsPosition $2)"
-	columnResult="$(winAtColumnPosition $2)"
-	diagonalsResult="$(winAtDiagonal $2)"
-	if [[ $rowResult == "win" ]] || [[ $columnResult == "win" ]] || [[ $diagonalsResult == "win" ]]
-	then
-		flag="win"
-	else
-		resultOfTie="$(tieResult)"		
-		if [ $resultOfTie == nextmove ]
-=======
 function winnerAtColumn(){
 	local playerLetter=$2
 	local computerLetter=$3
@@ -317,7 +251,6 @@ function winnerAtColumn(){
 	do
 		
 		if [[ ${boardOfGame[$column]} == ${boardOfGame[$column+3]} ]] || [[ ${boardOfGame[$column+3]} == ${boardOfGame[$column+6]} ]] || [[ ${boardOfGame[$column+6]} == ${boardOfGame[$column]} ]] 
->>>>>>> uc8_computer_block_player
 		then
 			for (( counter=1; counter<=3 ;counter++ ))
 			do
