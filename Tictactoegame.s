@@ -1,25 +1,23 @@
-	
+ 
 #!/bin/bash -x
 echo "welcome"
 
 declare -a  boardOfGame
-function resetingBoard()
-{
-	
+function resetingBoard() {	
  	for (( position=1 ; position<=9 ; position++ ))
 	do
 	boardOfGame[$position]=$position;
         
 	done
     	
-	echo $playerSymbol
+	
  	
 }
 
 function tossWinner() 
 {	resetingBoard
 	read -p "take letter (x or 0) for playing:" playerLetter 
-	if [ $playerLetter == x ] || [ $playerLetter == X ]
+	if [ $playerLetter == "x" ] || [ $playerLetter == "X" ]
 	then 
 	computerLetter="0"	
 	else
@@ -36,7 +34,7 @@ function tossWinner()
 	tossCheck1=$computerLetter
 	fi
         
-        if [ $tossCheck1 == $playerLetter ]
+        if [ $tossCheck1 == $playerLetter ] || [ $tossCheck1 == $computerLetter ]
         then
 		displayBoard 
 		playGame $tossCheck1 $playerLetter $computerLetter
@@ -148,7 +146,8 @@ function playGame() {
 		computerPlay="play"
 		while [ $computerPlay == play ] 
 		do
-			computerPosition="$( possiblityForWinning $1 $2 $3 )"
+			computerPosition=$( possiblityForWinning $1 $2 $3 )
+			
 			winnerFound1=false
 			if [ ${boardOfGame[$computerPosition]} == $computerPosition ]
 			then
@@ -172,11 +171,11 @@ function playGame() {
 
 }
 
-function possiblityForWinning(){
+function possiblityForWinning() {
 	rowPosition="$( winnerAtRow $1 $2 $3)"
 	columnPosition="$( winnerAtColumn $1 $2 $3 )"
 	diagonalPosition="$( winnerAtDiagonal $1 $2 $3 )"
-	cornerPosition="$( winnerAtcorner $1 $2 $3 )"
+	cornerPosition="$( winnerAtCorner $1 $2 $3 )"
 	if [[ $rowPosition -gt 0 ]]
 	then
 		randomPosition=$rowPosition
@@ -191,10 +190,13 @@ function possiblityForWinning(){
 
 		randomPosition=$diagonalPosition
 		replacePosition=0;
+
+	else 
 	
-	else	
 		randomPosition=$cornerPosition
-		replacePosition=0;	
+		displayBoard
+		replacePosition=0;
+	
 	fi
 	echo $randomPosition
 }
@@ -219,28 +221,29 @@ function possiblityForWinning(){
 	echo $flag
 }
 
-function winnerAtcorner(){
+
+
+function winnerAtCorner() {
 	local count=1;
 	local playerLetter=$2
 	local computerLetter=$3
-	replyPosition=0
 	for (( counter=1; counter<=2; counter++ ))
 	do
-		if [[ ${boardOfGame[$count]} -ne $computerLetter ]] && [[ ${boardOfGame[$count]} -ne $playerLetter ]]
+		if [[ ${boardOfGame[$count]} -ne $computerLetter ]] || [[ ${boardOfGame[$count]} -ne $playerLetter ]]
 		then
 			replyPosition=$count
-		elif [[ ${boardOfGame[$count+2]} -ne $computerLetter ]] && [[ ${boardOfGame[$count+2]} -ne $playerLetter ]]
+		elif [[ ${boardOfGame[$count+2]} -ne $computerLetter ]] || [[ ${boardOfGame[$count+2]} -ne $playerLetter ]]
 		then
 			replyPosition=$(( $count+2 ))
 		fi
-			count=$(( $count+6 ))
-		
+		count=$(( $count+6 ))
 	done
 	echo $replyPosition
+
+
 }
 
-
-function winnerAtRow(){
+function winnerAtRow() {
 	local computerLetter=$3
 	local playerLetter=$2
 	local row=1;
@@ -264,7 +267,7 @@ function winnerAtRow(){
 	echo $replacePosition
 }
 
-function winnerAtColumn(){
+function winnerAtColumn() {
 	local playerLetter=$2
 	local computerLetter=$3
 	local column=1;
@@ -331,5 +334,3 @@ function winnerAtDiagonal() {
 
 
 tossWinner
-
-
