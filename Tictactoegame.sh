@@ -230,7 +230,7 @@ function winnerAtRow(){
 		then
 			for (( counter=$row; counter<=$row+2; counter++ ))
 			do
-				if [[ ${boardOfGame[$counter]} -ne $computerLetter ]] 
+				if [[ ${boardOfGame[$counter]} -ne $computerLetter ]] || [[ ${boardOfGame[$counter]} -ne $playerLetter ]]
 				then
 					replacePosition=$counter
 				fi
@@ -254,7 +254,7 @@ function winnerAtColumn(){
 		then
 			for (( counter=1; counter<=3 ;counter++ ))
 			do
-				if [[ ${boardOfGame[$column]} -ne $computerLetter ]] 
+				if [[ ${boardOfGame[$column]} -ne $computerLetter ]] || [[ ${boardOfGame[$column]} -ne $playerLetter ]] 
 				then
 					replacePosition=$counter
 				fi
@@ -275,7 +275,7 @@ function winnerAtDiagonal() {
 	then
 		for (( counter=1; counter<=3; counter++ ))
 		do
-			if [[ ${boardOfGame[$count]} -ne $computerLetter ]]
+			if [[ ${boardOfGame[$count]} -ne $computerLetter ]] || [[ ${boardOfGame[$count]} -ne $playerLetter ]]
 			then
 				replacePosition=$count
 			fi
@@ -286,7 +286,7 @@ function winnerAtDiagonal() {
 		for (( counter=1; counter<=3; counter++ ))
 		do
 			count=$(( $count+2 ))
-			if [[ ${boardOfGame[$count]} -ne $computerLetter ]]
+			if [[ ${boardOfGame[$count]} -ne $computerLetter ]] || [[ ${boardOfGame[$count]} -ne $playerLetter ]]
 			then
 				replacePosition=$count
 			fi
