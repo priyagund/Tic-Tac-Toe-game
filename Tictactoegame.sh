@@ -1,3 +1,4 @@
+	
 #!/bin/bash -x
 echo "welcome"
 
@@ -177,6 +178,7 @@ function possiblityForWinning(){
 	diagonalPosition="$( winnerAtDiagonal $1 $2 $3 )"
 	cornerPosition="$( winnerAtcorner $1 $2 $3 )"
 	centerPosition="$( winnerAtCenter $1 $2 $3 )"
+	sidePosition="$( winnerAtSidePosition $1 $2 $3 )"
 	if [[ $rowPosition -gt 0 ]]
 	then
 		randomPosition=$rowPosition
@@ -186,21 +188,52 @@ function possiblityForWinning(){
 
 		randomPosition=$columnPosition
 		replacePosition=0;
-	elif  [[ $diagonalPosition -gt 0 ]] 
+	elif [[ $diagonalPosition -gt 0 ]]
 	then
 
 		randomPosition=$diagonalPosition
 		replacePosition=0;
 	
 	elif [[ $cornerPosition -gt 0 ]]
-	then
+	then	
 		randomPosition=$cornerPosition
 		replacePosition=0;
-	else 
+	elif [[ centerPosition -gt 0 ]]
+	then
 		randomPosition=$centerPosition
-		replacePosition=0
+		replacePosition=0;
+	else
+		randomPosition=$sidePosition
+
+		
 	fi
 	echo $randomPosition
+}
+
+
+function winnerAtSidePosition() 
+{
+	local playerLetter=$2
+	local computerLetter=$3
+	local sidePosition=0
+
+	if [[ ${boardOfGame[2]} -ne $playerLetter ]] && [[ ${boardOfGame[2]} -ne $playerLetter ]]
+	then
+	sidePosition=2
+	
+	elif [[ ${boardOfGame[4]} -ne $playerLetter ]] && [[ ${boardOfGame[4]} -ne $playerLetter ]]
+	then
+	sidePosition=4
+
+	elif [[ ${boardOfGame[6]} -ne $playerLetter ]] && [[ ${boardOfGame[6]} -ne $playerLetter ]]
+	then
+	sidePosition=6
+	
+	elif [[ ${boardOfGame[8]} -ne $playerLetter ]] && [[ ${boardOfGame[8]} -ne $playerLetter ]]
+	then
+	sidePosition=8
+	fi
+	echo $sidePosition
 }
 
  function checkWinTieOrTurnChange() 
@@ -226,29 +259,29 @@ function possiblityForWinning(){
 function winnerAtCenter(){
 	 if [[ ${boardOfGame[5]} -ne $playerLetter ]] || [[ ${boardOfGame[5]} -ne $computerLetter ]]
          then
-		replacePosition=5;
+		replyPosition=5;
          fi
-	echo $replacePosition
+	echo $replyPosition
 }
 
 function winnerAtcorner(){
 	local count=1;
 	local playerLetter=$2
 	local computerLetter=$3
-	replacePosition=0
+	replyPosition=0
 	for (( counter=1; counter<=2; counter++ ))
 	do
 		if [[ ${boardOfGame[$count]} -ne $computerLetter ]] && [[ ${boardOfGame[$count]} -ne $playerLetter ]]
 		then
-			replacePosition=$count
+			replyPosition=$count
 		elif [[ ${boardOfGame[$count+2]} -ne $computerLetter ]] && [[ ${boardOfGame[$count+2]} -ne $playerLetter ]]
 		then
-			replacePosition=$(( $count+2 ))
+			replyPosition=$(( $count+2 ))
 		fi
 			count=$(( $count+6 ))
 		
 	done
-	echo $replacePosition
+	echo $replyPosition
 }
 
 
@@ -343,4 +376,6 @@ function winnerAtDiagonal() {
 
 
 tossWinner
+
+
 
