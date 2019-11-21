@@ -1,4 +1,3 @@
-	
 #!/bin/bash -x
 echo "welcome"
 
@@ -177,6 +176,7 @@ function possiblityForWinning(){
 	columnPosition="$( winnerAtColumn $1 $2 $3 )"
 	diagonalPosition="$( winnerAtDiagonal $1 $2 $3 )"
 	cornerPosition="$( winnerAtcorner $1 $2 $3 )"
+	centerPosition="$( winnerAtCenter $1 $2 $3 )"
 	if [[ $rowPosition -gt 0 ]]
 	then
 		randomPosition=$rowPosition
@@ -217,6 +217,14 @@ function possiblityForWinning(){
 		#fi
 	fi
 	echo $flag
+}
+
+function winnerAtCenter(){
+	 if [[ ${boardOfGame[5]} -ne $playerLetter ]] || [[ ${boardOfGame[5]} -ne $computerLetter ]]
+         then
+		replyPosition=5;
+         fi
+	echo $replyPosition
 }
 
 function winnerAtcorner(){
@@ -331,5 +339,4 @@ function winnerAtDiagonal() {
 
 
 tossWinner
-
 
