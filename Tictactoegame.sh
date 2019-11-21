@@ -186,15 +186,19 @@ function possiblityForWinning(){
 
 		randomPosition=$columnPosition
 		replacePosition=0;
-	elif [[ $diagonalPosition -gt 0 ]]
+	elif  [[ $diagonalPosition -gt 0 ]] 
 	then
 
 		randomPosition=$diagonalPosition
 		replacePosition=0;
 	
-	else	
+	elif [[ $cornerPosition -gt 0 ]]
+	then
 		randomPosition=$cornerPosition
-		replacePosition=0;	
+		replacePosition=0;
+	else 
+		randomPosition=$centerPosition
+		replacePosition=0
 	fi
 	echo $randomPosition
 }
@@ -222,29 +226,29 @@ function possiblityForWinning(){
 function winnerAtCenter(){
 	 if [[ ${boardOfGame[5]} -ne $playerLetter ]] || [[ ${boardOfGame[5]} -ne $computerLetter ]]
          then
-		replyPosition=5;
+		replacePosition=5;
          fi
-	echo $replyPosition
+	echo $replacePosition
 }
 
 function winnerAtcorner(){
 	local count=1;
 	local playerLetter=$2
 	local computerLetter=$3
-	replyPosition=0
+	replacePosition=0
 	for (( counter=1; counter<=2; counter++ ))
 	do
 		if [[ ${boardOfGame[$count]} -ne $computerLetter ]] && [[ ${boardOfGame[$count]} -ne $playerLetter ]]
 		then
-			replyPosition=$count
+			replacePosition=$count
 		elif [[ ${boardOfGame[$count+2]} -ne $computerLetter ]] && [[ ${boardOfGame[$count+2]} -ne $playerLetter ]]
 		then
-			replyPosition=$(( $count+2 ))
+			replacePosition=$(( $count+2 ))
 		fi
 			count=$(( $count+6 ))
 		
 	done
-	echo $replyPosition
+	echo $replacePosition
 }
 
 
