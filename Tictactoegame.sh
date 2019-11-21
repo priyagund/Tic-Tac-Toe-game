@@ -36,7 +36,7 @@ function tossWinner()
 	tossCheck1=$computerLetter
 	fi
         
-        if [ $tossCheck1 == $playerLetter ]
+        if [ $tossCheck1 == $playerLetter ] || [ $tossCheck1 == $computerLetter ]
         then
 		displayBoard 
 		playGame $tossCheck1 $playerLetter $computerLetter
@@ -173,12 +173,12 @@ function playGame() {
 }
 
 function possiblityForWinning(){
-	rowPosition="$( winnerAtRow $1 $2 $3)"
-	columnPosition="$( winnerAtColumn $1 $2 $3 )"
-	diagonalPosition="$( winnerAtDiagonal $1 $2 $3 )"
-	cornerPosition="$( winnerAtcorner $1 $2 $3 )"
-	centerPosition="$( winnerAtCenter $1 $2 $3 )"
-	sidePosition="$( winnerAtSidePosition $1 $2 $3 )"
+	rowPosition="$( takingRowPosition $1 $2 $3)"
+	columnPosition="$( takingColumnPosition $1 $2 $3 )"
+	diagonalPosition="$( takingDiagonalPosition $1 $2 $3 )"
+	cornerPosition="$( takingCornerPosition $1 $2 $3 )"
+	centerPosition="$( takingCenterPosition $1 $2 $3 )"
+	sidePosition="$( takingSidePosition $1 $2 $3 )"
 	if [[ $rowPosition -gt 0 ]]
 	then
 		randomPosition=$rowPosition
@@ -211,7 +211,7 @@ function possiblityForWinning(){
 }
 
 
-function winnerAtSidePosition() 
+function takingSidePosition() 
 {
 	local playerLetter=$2
 	local computerLetter=$3
@@ -244,19 +244,19 @@ function winnerAtSidePosition()
 	if [[ $rowResult == true ]] || [[ $columnResult == true ]] || [[ $diagonalsResult == true ]]
 	then
 		flag=true
-	#else
-		#resultOfTie="$(tieResult)"		
-		#if [ $resultOfTie == nextmove ]
-		#then
-			#flag=false
-		#else
-			#flag=false
-		#fi
+	else
+		resultOfTie="$(tieResult)"		
+		if [ $resultOfTie == nextmove ]
+		then
+			flag=false
+		else
+			flag=false
+		fi
 	fi
 	echo $flag
 }
 
-function winnerAtCenter(){
+function takingCenterPosition(){
 	 if [[ ${boardOfGame[5]} -ne $playerLetter ]] || [[ ${boardOfGame[5]} -ne $computerLetter ]]
          then
 		replyPosition=5;
@@ -264,7 +264,7 @@ function winnerAtCenter(){
 	echo $replyPosition
 }
 
-function winnerAtcorner(){
+function takingCornerPosition(){
 	local count=1;
 	local playerLetter=$2
 	local computerLetter=$3
@@ -285,7 +285,7 @@ function winnerAtcorner(){
 }
 
 
-function winnerAtRow(){
+function takingRowPosition(){
 	local computerLetter=$3
 	local playerLetter=$2
 	local row=1;
@@ -309,7 +309,7 @@ function winnerAtRow(){
 	echo $replacePosition
 }
 
-function winnerAtColumn(){
+function takingColumnPosition(){
 	local playerLetter=$2
 	local computerLetter=$3
 	local column=1;
@@ -332,7 +332,7 @@ function winnerAtColumn(){
 	echo $replacePosition
 }
 
-function winnerAtDiagonal() {
+function takingDiagonalPosition() {
 	local playerLetter=$2
 	local computerLetter=$3
 	#local diagCount=1;
